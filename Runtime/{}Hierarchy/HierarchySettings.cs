@@ -21,9 +21,9 @@ using Random = UnityEngine.Random;
 [CreateAssetMenu(fileName = HierarchySettings.DEFAULT_HIERARCHY_SETTINGS_NAME, menuName = "Hierarchy/Settings", order = 1000)]
 public class HierarchySettings : ScriptableObjectSingleton<HierarchySettings>
 {
-#if UNITY_EDITOR
 	private const string DEFAULT_HIERARCHY_SETTINGS_NAME = "[Hierarchy Settings] Default";
 
+#if UNITY_EDITOR
 	[HelpBox("Whether Hierarchy additives should work or not.")]
 	[SerializeField] private bool _hierarchyEnabled;
 	public bool HierarchyEnabled => this._hierarchyEnabled;
