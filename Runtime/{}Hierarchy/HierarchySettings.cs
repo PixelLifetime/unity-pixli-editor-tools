@@ -14,7 +14,6 @@ using UnityEditor;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
-#if UNITY_EDITOR
 /// <summary>
 /// Settings for the hierarchy.
 /// Reload-proof Singleton :)
@@ -24,11 +23,14 @@ public class HierarchySettings : ScriptableObjectSingleton<HierarchySettings>
 {
 	private const string DEFAULT_HIERARCHY_SETTINGS_NAME = "[Hierarchy Settings] Default";
 
+	//TODO: Not sure why this boolean cannot be inside `#if UNITY_EDITOR`. `A scripted object (probably HierarchySettings?) has a different serialization layout when loading. (Read 52 bytes but expected 56 bytes)` when it is inside.
 	[HelpBox("Whether Hierarchy additives should work or not.")]
 	[SerializeField] private bool _hierarchyEnabled;
 	public bool HierarchyEnabled => this._hierarchyEnabled;
-}
+
+#if UNITY_EDITOR
 #endif
+}
 
 #if UNITY_EDITOR
 [CustomEditor(typeof(HierarchySettings))]
