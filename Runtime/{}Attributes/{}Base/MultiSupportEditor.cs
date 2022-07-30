@@ -113,7 +113,7 @@ public class MultiSupportEditor : Editor
 	public static void DrawDefaultInspectorChildren(SerializedProperty serializedProperty, params string[] avoidFieldNames)
 	{
 		int initialDepth = serializedProperty.depth;
-			
+
 		HashSet<string> avoidanceHashSet = new HashSet<string>(avoidFieldNames);
 
 		bool hasNextVisible = serializedProperty.NextVisible(true);
@@ -128,27 +128,34 @@ public class MultiSupportEditor : Editor
 		serializedProperty.serializedObject.ApplyModifiedProperties();
 	}
 
-	protected virtual void DrawDefaultInspector(bool drawScriptField = true, params string[] avoidFieldNames)
-    {
-        SerializedProperty serializedProperty = this.serializedObject.GetIterator();
-        serializedProperty.NextVisible(true); // Ommit (Base) dropdown.
+	public static void DrawDefaultInspector(SerializedObject serializedObject, bool drawScriptField = true, params string[] avoidFieldNames)
+	{
+		SerializedProperty serializedProperty = serializedObject.GetIterator();
+		serializedProperty.NextVisible(true); // Ommit (Base) dropdown.
 
-        if (drawScriptField)
-        {
-            EditorGUI.BeginDisabledGroup(true);
-            {
-            EditorGUILayout.PropertyField(serializedProperty, true); // Script field.
-            }
-            EditorGUI.EndDisabledGroup();
-        }
+		if (drawScriptField)
+		{
+			EditorGUI.BeginDisabledGroup(true);
+			{
+				EditorGUILayout.PropertyField(serializedProperty, true); // Script field.
+			}
+			EditorGUI.EndDisabledGroup();
+		}
 
-        MultiSupportEditor.DrawDefaultInspector(serializedProperty, avoidFieldNames);
-    }
-        
-    protected virtual void DrawDefaultInspector(params string[] avoidFieldNames)
-    {
-        this.DrawDefaultInspector(true, avoidFieldNames);
-    }
+		MultiSupportEditor.DrawDefaultInspector(serializedProperty, avoidFieldNames);
+	}
+
+	protected virtual void DrawDefaultInspector(bool drawScriptField = true, params string[] avoidFieldNames) => 
+		MultiSupportEditor.DrawDefaultInspector(
+			serializedObject: this.serializedObject,
+			drawScriptField: drawScriptField,
+			avoidFieldNames: avoidFieldNames
+		);
+
+	protected virtual void DrawDefaultInspector(params string[] avoidFieldNames)
+	{
+		this.DrawDefaultInspector(true, avoidFieldNames);
+	}
 }
 
 [CustomEditor(typeof(MonoBehaviour), true)]

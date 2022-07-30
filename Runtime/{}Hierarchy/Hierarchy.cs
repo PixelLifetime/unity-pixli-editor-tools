@@ -207,7 +207,7 @@ public class Hierarchy
 
 		Hierarchy.S_HierarchySkin = AssetDatabase.LoadAssetAtPath<HierarchySkin>(
 			Path.Combine(
-				PathUtility.GetScriptFileDirectoryPath(),
+				Path.Combine(PathUtility.ASSETS_PATH_NAME, PathUtility.GetScriptFileDirectoryPath()),
 				Hierarchy.HIERARCHY_SKIN_EXTENTION_NAME
 			)
 		);
